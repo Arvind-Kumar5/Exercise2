@@ -7,87 +7,81 @@
  */
 
 package src;
-import java.util.*;
-
 
 public class Exercise2 {
-
 
     public static final int MAX_INT = 2147483647;
     public static final int MIN_INT = -2147483648;
 
-
+    /**
+     * Adds integer a and b and catches any overflow errors
+     * 
+     * @param a -first integer
+     * @param b -second integer
+     * @return a + b, 0 if overflow was detected
+     */
     public static int add(int a, int b) {
-        if(a > 0) { 
-            if(a > MAX_INT - b) {
-                System.out.println("Addition Overflowed");
-                return 0;
-            }
-        } else if (a < 0) {
-            if (a < MIN_INT + b) {
-                System.out.println("Addition Overflowed");
-                return 0;
-            }
+        if (a > MAX_INT - b) { // checking if a + b goes past int max
+            System.out.println("Addition Overflowed");
+            return 0;
+        }
+        if (a < MIN_INT + b) { // checking if a + b goes past int min
+            System.out.println("Addition Overflowed");
+            return 0;
         }
 
         return a + b;
     }
 
-
+    /**
+     * Subtracts integers a and b and catches any overflow
+     * 
+     * @param a -first integer
+     * @param b -second integer
+     * @return a - b, 0 if overflow was detected
+     */
     public static int subtract(int a, int b) {
-    
-        if(a > 0) {
-            if(a > MAX_INT + b) {
-                System.out.println("Subtraction Overflowed");
-                return 0;
-            }
-        } else if (a < 0) {
-            if (a < MIN_INT - b) {
-                System.out.println("Subtraction Overflowed");
-                return 0;
-            }
+        if (a < MIN_INT - b) { // checking if a - b goes past the integer min
+            System.out.println("Subtraction Overflowed");
+            return 0;
+        }
+        if (a > Integer.MAX_VALUE - b) { // checking if a - b goes past the integer max
+            System.out.println("Subtraction Overflowed");
+            return 0;
         }
 
         return a - b;
     }
 
-
+    /**
+     * Multiplies integer a and b, and checks for overflow
+     * 
+     * @param a -first integer
+     * @param b -second integer
+     * @return a * b, 0 if overflow was detected
+     */
     public static int multiply(int a, int b) {
-       
-        if(b > 0) {
-
-            if(a > Integer.MAX_VALUE/b) {
-                System.out.println("Multiplication Overflowed");
-                return 0;
-            }
-
-            if(a < Integer.MIN_VALUE/b) {
-                System.out.println("Multiplication Overflowed");
-                return 0;
-            }
+        if (a < Integer.MAX_VALUE/b) { // checking if a*b goes past the max int
+            System.out.println("Multiplication Overflowed");
+            return 0;
         }
-
-        if(a > 0){
-
-            if(a > Integer.MIN_VALUE/b) {
-                System.out.println("Multiplication Overflowed");
-                return 0;
-            }
-
-        }
-
-        if(a < 0) {
-            if (a < Integer.MAX_VALUE/b) {
-                System.out.println("Multiplication Overflowed");
-                return 0;
-            }
-        }
+        if (a > Integer.MIN_VALUE/b) { // checking if a*b goes past the min int
+            System.out.println("Multiplication Overflowed");
+            return 0;
+        } 
 
         return a * b;
     }
 
-
+    /**
+     * Divides a and b, and checks for overflow
+     * 
+     * @param a -numerator
+     * @param b -denomenator
+     * @return a/b, 0 if overflow is detected
+     */
     public static int divide(int a, int b) {
+        // overflow past the max value if dividing the min by -1
         if(a <= Integer.MIN_VALUE && b == -1) {
             System.out.println("Divide Overflow");
             return 0;
@@ -98,38 +92,24 @@ public class Exercise2 {
 
 
     public static void main(String [] args) {
-        /*
-        System.out.println("Please give a first number");
-        Scanner src = new Scanner(System.in);
-        int a = src.nextInt();
-        System.out.println("Please give a second number");
-        int b = src.nextInt();
-        */ 
+    
+        // test add(a,b) all should cause overflow
+        System.out.println("Add: " + add(2, 2147483647)); 
+        System.out.println("Add: " + add(-2, -2147483648));
 
-        // Divide
-        System.out.println(Double.valueOf(MIN_INT / MAX_INT));
-        System.out.println(-2 * MIN_INT);
-        System.out.println(MIN_INT / -1);
+        // test subtract(a,b) all should cause overflow
+        System.out.println("Subtract: " + subtract(-2, 2147483647)); 
+        System.out.println("Subtract: " + subtract(2, -2147483648)); 
 
+        // test multiply(a,b) all should cause overflow
+        System.out.println("Multiply: " + multiply(2, 2147483647)); 
+        System.out.println("Multiply: " + multiply(-2, 2147483647));
+        System.out.println("Multiply: " + multiply(-2, -2147483648));
+        System.out.println("Multiply: " + multiply(2, -2147483648)); 
 
-        // Add
-        System.out.println("Add: " + add(2, 2147483647)); // should overflow
-        System.out.println("Add: " + add(-2, -2147483648)); // should overflow
+        // test divide(a,b) all should cause overflow
+        System.out.println("Divide: " + divide(-2147483648, -1)); 
 
-        // subtract
-        System.out.println("Subtract: " + subtract(-2, 2147483647)); // should overflow
-        System.out.println("Subtract: " + subtract(2, -2147483648)); // should overflow
-
-        // multiply
-        System.out.println("Multiply: " + multiply(2, 2147483647)); // should overflow
-        System.out.println("Multiply: " + multiply(-2, 2147483647)); // should overflow
-        System.out.println("Multiply: " + multiply(-2, -2147483648)); // should overflow
-        System.out.println("Multiply: " + multiply(2, -2147483648)); // should overflow
-
-        // divide
-        System.out.println("Divide: " + divide(-2147483648, -1)); // should overflow
-
-        // src.close();
     }
 
 }
